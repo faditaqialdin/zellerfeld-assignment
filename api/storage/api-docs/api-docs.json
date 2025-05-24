@@ -1,0 +1,730 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Zellerfeld Assignment - Twitter Clone API",
+        "description": "This API provides endpoints for a Twitter clone application, allowing users to manage posts and authenticate.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Log in a user",
+                "description": "Logs in a user and generates an access token.",
+                "operationId": "8cb7742ae98d0990acb2907c4e00bf24",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logged in successfully"
+                                        },
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "token"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "delete": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Log out a user",
+                "description": "Logs out the currently authenticated user by revoking their token.",
+                "operationId": "085014c580531cf4f0a1c53b7c3faa65",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LogoutRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful logout",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logged out successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/posts": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Retrieve a paginated list of posts",
+                "description": "Retrieves a paginated list of posts.",
+                "operationId": "5f292ed47bdbfa79356750be0807450c",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of posts per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The current page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of posts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        },
+                                        "meta": {
+                                            "description": "Pagination metadata",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/profile": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Retrieve the authenticated user's profile",
+                "description": "Retrieves the profile information of the currently authenticated user.",
+                "operationId": "3c91ae2e201145a495a0b5696c6b8901",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of the user's profile",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "description": "The user's ID",
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "description": "The user's name",
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "description": "The user's email address",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Update the authenticated user's profile",
+                "description": "Updates the profile information of the currently authenticated user.",
+                "operationId": "354f5b23296bed4036564563e7423f43",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "The new email address",
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "name": {
+                                        "description": "The new name",
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "password": {
+                                        "description": "The new password",
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful update of the user's profile",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "description": "The user's ID",
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "description": "The updated name",
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "description": "The updated email address",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Create a new user",
+                "description": "Creates a new user with the provided data.",
+                "operationId": "a1fce870c566eb5fc0cf3178ec5d2fed",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "The user's email address",
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "description": "The user's name",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "The user's password",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "description": "The user's ID",
+                                            "type": "integer"
+                                        },
+                                        "email": {
+                                            "description": "The user's email address",
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "description": "The user's name",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Retrieve a user's details",
+                "description": "Retrieves the details of a specific user by their ID.",
+                "operationId": "910a0c7cf580e1c605648d82a4e57f46",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of the user's details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "description": "The user's ID",
+                                            "type": "integer"
+                                        },
+                                        "email": {
+                                            "description": "The user's email address",
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "description": "The user's name",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{userId}/posts": {
+            "get": {
+                "tags": [
+                    "User Posts"
+                ],
+                "summary": "Retrieve a paginated list of posts for a specific user",
+                "description": "Retrieves a paginated list of posts for a specific user.",
+                "operationId": "4827a46f84597d0f2385249baaaa33ca",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "The ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of posts per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The current page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of the user's posts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        },
+                                        "meta": {
+                                            "description": "Pagination metadata",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "User Posts"
+                ],
+                "summary": "Create a new post for a specific user",
+                "description": "Creates a new post for a specific user.",
+                "operationId": "4d7dbf4a96875e37d621055406092a8a",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "The ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "content": {
+                                        "description": "The content of the post",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Post successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "description": "The post ID",
+                                            "type": "integer"
+                                        },
+                                        "content": {
+                                            "description": "The content of the post",
+                                            "type": "string"
+                                        },
+                                        "user_id": {
+                                            "description": "The ID of the user who created the post",
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "LoginRequest": {
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "description": "The user's email address",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "description": "The user's password",
+                        "type": "string",
+                        "format": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "LogoutRequest": {
+                "description": "Schema for logout request",
+                "type": "object"
+            },
+            "PostStoreRequest": {
+                "required": [
+                    "content"
+                ],
+                "properties": {
+                    "content": {
+                        "description": "The content of the post",
+                        "type": "string",
+                        "maxLength": 280
+                    },
+                    "authorize": {
+                        "description": "Indicates if the user is authorized to make this request",
+                        "type": "boolean"
+                    },
+                    "rules": {
+                        "description": "Validation rules for the request",
+                        "properties": {
+                            "content": {
+                                "description": "The content of the post",
+                                "type": "string",
+                                "maxLength": 280
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "ProfileUpdateRequest": {
+                "description": "Request schema for updating a user's profile",
+                "properties": {
+                    "name": {
+                        "description": "The new name of the user",
+                        "type": "string",
+                        "maxLength": 255,
+                        "nullable": true
+                    },
+                    "email": {
+                        "description": "The new email address of the user",
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255,
+                        "nullable": true
+                    },
+                    "password": {
+                        "description": "The new password for the user",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "rules": {
+                        "description": "Validation rules for the request",
+                        "properties": {
+                            "name": {
+                                "description": "The new name of the user",
+                                "type": "string",
+                                "maxLength": 255,
+                                "nullable": true
+                            },
+                            "email": {
+                                "description": "The new email address of the user",
+                                "type": "string",
+                                "format": "email",
+                                "maxLength": 255,
+                                "nullable": true
+                            },
+                            "password": {
+                                "description": "The new password for the user",
+                                "type": "string",
+                                "nullable": true
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "UserStoreRequest": {
+                "description": "Request schema for creating a new user",
+                "required": [
+                    "name",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "The name of the user",
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "email": {
+                        "description": "The email address of the user",
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255
+                    },
+                    "password": {
+                        "description": "The password for the user",
+                        "type": "string"
+                    },
+                    "authorize": {
+                        "description": "Indicates if the user is authorized to make this request",
+                        "type": "boolean"
+                    },
+                    "rules": {
+                        "description": "Validation rules for the request",
+                        "properties": {
+                            "name": {
+                                "description": "The name of the user",
+                                "type": "string",
+                                "maxLength": 255
+                            },
+                            "email": {
+                                "description": "The email address of the user",
+                                "type": "string",
+                                "format": "email",
+                                "maxLength": 255
+                            },
+                            "password": {
+                                "description": "The password for the user",
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Post": {
+                "required": [
+                    "id",
+                    "content"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "required": [
+                    "id",
+                    "email",
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "john@example.com"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "password": {
+                        "type": "string",
+                        "format": "password",
+                        "example": "securePass123"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Profile",
+            "description": "Operations related to user profiles"
+        },
+        {
+            "name": "User",
+            "description": "Operations related to user management"
+        },
+        {
+            "name": "User Posts",
+            "description": "Operations related to a user's posts"
+        },
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        },
+        {
+            "name": "Posts",
+            "description": "Posts"
+        }
+    ]
+}
