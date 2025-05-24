@@ -3,8 +3,9 @@
 namespace App\Domain\Models;
 
 use DateTimeImmutable;
+use JsonSerializable;
 
-readonly class Post
+readonly class Post implements JsonSerializable
 {
     public function __construct(
         private int               $id,
@@ -33,5 +34,15 @@ readonly class Post
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'user_id' => $this->userId,
+            'content' => $this->content,
+            'created_at' => $this->createdAt->format(DATE_ATOM),
+        ];
     }
 }
