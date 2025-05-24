@@ -28,6 +28,6 @@ readonly class UserPostController
         return response()->json($this->postDomainRepository->createUserPost(
             $user->id,
             $request->get('content'),
-        ));
+        ), 201);
     }
 }
