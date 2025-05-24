@@ -19,12 +19,10 @@ class UserEloquentRepositoryTest extends TestCase
             'password' => 'secret',
         ];
 
-        $hashedPassword = Hash::make($data['password']);
-
         $createdUser = new User([
             'email' => $data['email'],
             'name' => $data['name'],
-            'password' => $hashedPassword,
+            'password' => $data['password'],
         ]);
 
         $queryMock = Mockery::mock(Builder::class);

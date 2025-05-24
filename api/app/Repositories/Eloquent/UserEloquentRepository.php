@@ -4,7 +4,6 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Hash;
 
 class UserEloquentRepository
 {
@@ -13,7 +12,7 @@ class UserEloquentRepository
         return $this->query()->create([
             'email' => $email,
             'name' => $name,
-            'password' => Hash::make($password),
+            'password' => $password,
         ]);
     }
 
