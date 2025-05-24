@@ -61,7 +61,7 @@ readonly class ProfileController
     /**
      * Updates the profile information of the currently authenticated user.
      *
-     * @OA\Post(
+     * @OA\Patch(
      *     path="/profile",
      *     summary="Update the authenticated user's profile",
      *     tags={"Profile"},
@@ -91,7 +91,7 @@ readonly class ProfileController
      *
      * @return JsonResponse A JSON response containing the updated user profile information.
      */
-    public function store(ProfileUpdateRequest $request): JsonResponse
+    public function update(ProfileUpdateRequest $request): JsonResponse
     {
         return response()->json($this->userDomainRepository->updateUser(
             $request->user()->id,
