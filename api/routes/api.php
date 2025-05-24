@@ -16,7 +16,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::delete('auth/token', [AuthController::class, 'logout'])->name('auth.token.delete');
 
-        Route::apiResource('profile', ProfileController::class)->only(['show', 'update']);
+        Route::apiResource('profile', ProfileController::class)->only(['index', 'store']);
         Route::apiResource('users', UserController::class)->only(['show']);
         Route::apiResource('posts', PostController::class)->only(['index']);
         Route::apiResource('users/{user}/posts', UserPostController::class)->only(['index', 'store']);
