@@ -22,6 +22,7 @@ readonly class AuthController
                 $request->input('password')
             );
             return response()->json([
+                'message' => 'Logged in successfully',
                 'access_token' => $token,
             ]);
         } catch (RuntimeException $e) {
@@ -32,6 +33,6 @@ readonly class AuthController
     public function logout(LogoutRequest $request): JsonResponse
     {
         $this->authService->revokeCurrentToken($request->user());
-        return response()->json(['message' => 'Logged out']);
+        return response()->json(['message' => 'Logged out successfully']);
     }
 }
