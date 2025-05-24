@@ -13,24 +13,18 @@ readonly class ProfileController
     {
     }
 
-    public function show(Request $request): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return response()->json([
-            'user' => $this->userDomainRepository->getUserById($request->user()->id),
-        ]);
+        return response()->json($this->userDomainRepository->getUserById($request->user()->id));
     }
 
-    public function update(ProfileUpdateRequest $request): JsonResponse
+    public function store(ProfileUpdateRequest $request): JsonResponse
     {
-        $user = $this->userDomainRepository->updateUser(
+        return response()->json($this->userDomainRepository->updateUser(
             $request->user()->id,
             $request->get('email'),
             $request->get('name'),
             $request->get('password')
-        );
-        return response()->json([
-            'message' => 'User updated successfully',
-            'user' => $user,
-        ]);
+        ));
     }
 }
