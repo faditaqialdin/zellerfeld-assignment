@@ -10,5 +10,8 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+        // User profile routes
+        Route::get('profile/{user?}', [UserController::class, 'profile'])->name('profile');
+        Route::patch('profile', [UserController::class, 'profileUpdate'])->name('profile.update');
     });
 });
