@@ -83,7 +83,7 @@ class UserDomainRepositoryTest extends TestCase
         $eloquentRepo = Mockery::mock(UserEloquentRepository::class);
         $eloquentRepo->shouldReceive('updateUser')
             ->once()
-            ->with(1, 'new@example.com', 'New Name')
+            ->with(1, 'new@example.com', 'New Name', null)
             ->andReturn($eloquentUser);
 
         $domainRepo = new UserDomainRepository($eloquentRepo);

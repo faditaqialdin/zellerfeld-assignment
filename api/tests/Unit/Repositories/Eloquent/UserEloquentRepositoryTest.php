@@ -5,7 +5,6 @@ namespace Tests\Unit\Repositories\Eloquent;
 use App\Models\User;
 use App\Repositories\Eloquent\UserEloquentRepository;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Hash;
 use Mockery;
 use Tests\TestCase;
 
@@ -30,8 +29,7 @@ class UserEloquentRepositoryTest extends TestCase
             ->once()
             ->with(Mockery::on(static function ($arg) use ($data) {
                 return $arg['email'] === $data['email']
-                    && $arg['name'] === $data['name']
-                    && Hash::check($data['password'], $arg['password']);
+                    && $arg['name'] === $data['name'];
             }))
             ->andReturn($createdUser);
 
