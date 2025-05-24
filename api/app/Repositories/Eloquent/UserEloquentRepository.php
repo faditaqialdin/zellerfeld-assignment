@@ -26,7 +26,7 @@ class UserEloquentRepository
         return $this->query()->where('email', $email)->first();
     }
 
-    public function updateUser(int $userId, string $email = null, string $name = null): User
+    public function updateUser(int $userId, string $email = null, string $name = null, string $password = null): User
     {
         $user = $this->getUserById($userId);
         if ($email) {
@@ -34,6 +34,9 @@ class UserEloquentRepository
         }
         if ($name) {
             $user->name = $name;
+        }
+        if ($password) {
+            $user->password = $password;
         }
         $user->save();
         return $user;

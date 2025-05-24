@@ -12,5 +12,5 @@ interface UserDomainRepositoryInterface
 
     public function getUserByEmail(string $email): User;
 
-    public function updateUser(int $userId, string $email = null, string $name = null): User;
+    public function updateUser(int $userId, string $email = null, string $name = null, string $password = null): User;
 }

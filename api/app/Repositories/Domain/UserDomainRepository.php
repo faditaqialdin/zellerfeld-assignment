@@ -41,9 +41,9 @@ readonly class UserDomainRepository implements UserDomainRepositoryInterface
         return $this->domainUserFromEloquentUser($user);
     }
 
-    public function updateUser(int $userId, string $email = null, string $name = null): DomainUser
+    public function updateUser(int $userId, string $email = null, string $name = null, string $password = null): DomainUser
     {
-        $user = $this->userEloquentRepository->updateUser($userId, $email, $name);
+        $user = $this->userEloquentRepository->updateUser($userId, $email, $name, $password);
         return $this->domainUserFromEloquentUser($user);
     }
 }
