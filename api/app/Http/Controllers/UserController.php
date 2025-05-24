@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\User\ProfileRequest;
-use App\Http\Requests\User\ProfileUpdateRequest;
-use App\Http\Requests\User\RegisterRequest;
+use App\Http\Requests\User\UserCreateRequest;
+use App\Http\Requests\User\UserShowRequest;
+use App\Http\Requests\User\UserUpdateRequest;
 use App\Models\User;
 use App\Repositories\Domain\UserDomainRepository;
 use Illuminate\Http\JsonResponse;
@@ -15,7 +15,7 @@ readonly class UserController
     {
     }
 
-    public function register(RegisterRequest $request): JsonResponse
+    public function store(UserCreateRequest $request): JsonResponse
     {
         $user = $this->userDomainRepository->createUser(
             $request->input('email'),
@@ -28,7 +28,7 @@ readonly class UserController
         ]);
     }
 
-    public function profile(ProfileRequest $request, User $user = null): JsonResponse
+    public function show(UserShowRequest $request, User $user = null): JsonResponse
     {
         return response()->json([
             'user' => $this->userDomainRepository->getUserById(
@@ -37,7 +37,7 @@ readonly class UserController
         ]);
     }
 
-    public function profileUpdate(ProfileUpdateRequest $request): JsonResponse
+    public function update(UserUpdateRequest $request): JsonResponse
     {
         $user = $this->userDomainRepository->updateUser(
             $request->user()->id,
