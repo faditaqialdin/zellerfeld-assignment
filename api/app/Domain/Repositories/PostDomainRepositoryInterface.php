@@ -5,7 +5,7 @@ namespace App\Domain\Repositories;
 use App\Domain\Models\Post;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-interface PostRepositoryInterface
+interface PostDomainRepositoryInterface
 {
     /** @return LengthAwarePaginator<Post> */
     public function getAllPostsPaginated(int $limit, int $page): LengthAwarePaginator;
