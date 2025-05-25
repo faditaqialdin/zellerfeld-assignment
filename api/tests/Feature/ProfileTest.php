@@ -32,7 +32,7 @@ class ProfileTest extends TestCase
         $user = User::factory()->create();
         $token = $user->createToken('api-token')->plainTextToken;
 
-        $response = $this->withToken($token)->postJson('/api/v1/profile', [
+        $response = $this->withToken($token)->patchJson('/api/v1/profile', [
             'name' => 'Updated Name',
         ]);
 
@@ -41,7 +41,7 @@ class ProfileTest extends TestCase
 
     public function test_not_update_unauthenticated_user_profile(): void
     {
-        $response = $this->postJson('/api/v1/profile', [
+        $response = $this->patchJson('/api/v1/profile', [
             'name' => 'Updated Name',
         ]);
 
