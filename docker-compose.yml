@@ -1,0 +1,57 @@
+services:
+  app:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: laravel-app
+    volumes:
+      - ./api:/var/www/html
+    ports:
+      - "8000:8000"
+    command: php artisan serve --host=0.0.0.0 --port=8000
+    depends_on:
+      - mysql
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: laravel
+      DB_USERNAME: laravel
+      DB_PASSWORD: secret
+    networks:
+      - laravel
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - laravel
+
+  pwa:
+    environment:
+      PWA_PUBLIC_ENTRYPOINT: http://app
+    build:
+      context: ./pwa
+      target: dev
+    ports:
+      - "3000:3000"
+    networks:
+      - laravel
+    volumes:
+      - ./pwa:/srv/app
+
+volumes:
+  db_data:
+
+networks:
+  laravel:
