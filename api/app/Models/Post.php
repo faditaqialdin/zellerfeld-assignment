@@ -29,6 +29,7 @@ class Post extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $with = ['user'];
 
     public function user(): BelongsTo
     {
