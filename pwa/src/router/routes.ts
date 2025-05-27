@@ -15,11 +15,6 @@ export default [
         component: () => import('@/views/UserView.vue')
     },
     {
-        name: 'Profile',
-        path: '/profile',
-        component: () => import('@/views/ProfileView.vue')
-    },
-    {
         name: 'Home',
         path: '/',
         component: () => import('@/views/HomeView.vue')
