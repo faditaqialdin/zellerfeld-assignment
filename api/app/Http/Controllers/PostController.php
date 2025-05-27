@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Domain\PostDomainRepository;
+use App\Repositories\Eloquent\PostEloquentRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
@@ -17,9 +17,9 @@ readonly class PostController
     /**
      * PostController constructor.
      *
-     * @param PostDomainRepository $postDomainRepository The repository responsible for post-related domain logic.
+     * @param PostEloquentRepository $postEloquentRepository The repository responsible for post-related domain logic.
      */
-    public function __construct(private PostDomainRepository $postDomainRepository)
+    public function __construct(private PostEloquentRepository $postEloquentRepository)
     {
     }
 
@@ -60,7 +60,7 @@ readonly class PostController
      */
     public function index(Request $request): JsonResponse
     {
-        return response()->json($this->postDomainRepository->getAllPostsPaginated(
+        return response()->json($this->postEloquentRepository->getAllPostsPaginated(
             $request->get('limit', 10),
             $request->get('page', 1),
         ));
