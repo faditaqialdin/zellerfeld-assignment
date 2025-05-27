@@ -18,6 +18,7 @@ Route::prefix('v1')->group(function () {
 
         Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
         Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::apiResource('users', UserController::class)->only(['show']);
         Route::apiResource('posts', PostController::class)->only(['index']);
         Route::apiResource('users/{user}/posts', UserPostController::class)->only(['index', 'store']);
